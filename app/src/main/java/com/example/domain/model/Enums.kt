@@ -19,3 +19,7 @@ enum class AccessType {
 enum class VerificationStatus {
     UNVERIFIED, PENDING_INSPECTION, VERIFIED, SUSPENDED
 }
+
+enum class OwnershipType {
+    OWNER, TENANT, APARTMENT_ASSOCIATION
+}

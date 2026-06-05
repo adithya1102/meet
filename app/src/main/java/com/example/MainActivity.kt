@@ -84,10 +84,27 @@ class MainActivity : ComponentActivity() {
                             ProfileSetupScreen(
                                 user = user,
                                 onProfileCompleted = { completedUser ->
-                                    meetsViewModel.setCurrentUserId(completedUser.id)
-                                    currentScreen = "home"
+                                    pendingUser = completedUser
+                                    if (!completedUser.kycVerified) {
+                                        currentScreen = "kyc"
+                                    } else {
+                                        meetsViewModel.setCurrentUserId(completedUser.id)
+                                        currentScreen = "home"
+                                    }
                                 },
                                 viewModel = authViewModel
+                            )
+                        }
+                    }
+                    "kyc" -> {
+                        pendingUser?.let { user ->
+                            KycScreen(
+                                user = user,
+                                onNavigateBack = { currentScreen = "profile_setup" },
+                                onKycSuccess = {
+                                    meetsViewModel.setCurrentUserId(user.id)
+                                    currentScreen = "home"
+                                }
                             )
                         }
                     }
